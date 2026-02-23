@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Autonomous Machine Unlearning | Justin Minseob Seo</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
     <style>
         :root {
             --bg-color: #050505;
@@ -101,16 +105,16 @@
             margin-top: 40px;
         }
 
+        /* FIXED MATH BOX */
         .math-box {
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 20px;
             padding: 40px;
             text-align: center;
-            font-size: 1.8rem;
-            font-family: 'Courier New', Courier, monospace;
             margin: 40px 0;
             color: var(--accent-green);
+            overflow-x: auto;
         }
 
         .highlight { color: var(--accent-blue); font-weight: 700; }
@@ -120,10 +124,7 @@
             width: 100%;
             border-radius: 15px;
             border: 1px solid rgba(255,255,255,0.1);
-            transition: transform 0.3s ease;
         }
-        
-        img:hover { transform: scale(1.02); }
 
         footer {
             border-top: 1px solid rgba(255,255,255,0.1);
@@ -148,7 +149,7 @@
         <h1>Autonomous Machine Unlearning</h1>
         <p>Mathematical Verification of Projected Gradient Ascent in Financial Risk Models.</p>
         <div style="margin-top: 20px; color: var(--text-muted); font-size: 1.1rem;">
-            Justin Minseob Seo &nbsp;|&nbsp; Advised by Jun-Kun Wang
+            Justin Minseob Seo &nbsp;|&nbsp; Mentor: Jun-Kun Wang
         </div>
     </section>
 
@@ -156,8 +157,12 @@
         <div class="grid-2">
             <div class="text-block">
                 <h2>Geometric Audit: Precision vs. Interference</h2>
-                <p>We verified the algorithm's integrity by transitioning from a theoretical baseline to production-scale deployment.</p>
-                <p>Our <span class="highlight">Baseline (N=1)</span> tests yielded a perfect 1.0 R², proving surgical precision. However, scaling to <span class="highlight">Production (N=20)</span> revealed <b>Batch Interference</b>, where competing gradients from distinct financial profiles dilute unlearning efficiency.</p>
+                <p>We verified the algorithm's integrity by transitioning from a theoretical baseline to production-scale deployment:</p>
+                <ul>
+                    <li><span class="highlight">Baseline (N=1):</span> Unlearning a single user is a perfect mathematical projection along the feature space with \(R^2 = 1.0\).</li>
+                    <li><span class="highlight">Production (N=20):</span> Scaling to batches reveals <b>Batch Interference</b>, where competing gradients dilute precision to \(R^2 \approx 0.16\).</li>
+                </ul>
+                <p>Despite variance, <b>Cosine Similarity</b> remained locked at 0.427339, proving zero geometric drift.</p>
             </div>
             <div>
                 <img src="figure/geometric_audit_side_by_side.png" alt="Geometric Audit: Baseline vs Production">
@@ -168,7 +173,7 @@
     <section class="section" style="background-color: #0A0A0E;">
         <h2 style="text-align: center;">Mathematical Foundation</h2>
         <div class="math-box">
-            w_{t+1} = w_t + \eta \nabla \mathcal{L}_{forget}(w_t)
+            \[ w_{t+1} = w_t + \eta \nabla \mathcal{L}_{forget}(w_t) \]
         </div>
         <p style="text-align: center; color: var(--text-muted);">
             By applying Projected Gradient Ascent (PGA), we maximize error exclusively on a targeted forget-batch while preserving the decision boundaries of the retain-set.
@@ -182,8 +187,8 @@
             </div>
             <div class="text-block">
                 <h2>Solving the Stopping Point Paradox</h2>
-                <p>Unlearning presents a narrow "Efficiency Window." Ascending the gradient indefinitely results in <b>Catastrophic Forgetting</b> of the retained data.</p>
-                <p>We discovered a <span class="gold">34-step Safety Window</span>. By monitoring a deployable "Blind Metric" (Validation Loss), systems can autonomously halt unlearning at Step 31, preserving model utility before degradation begins.</p>
+                <p>We discovered a <span class="gold">34-step Safety Window</span> where the model maintains peak utility.</p>
+                <p>Monitoring the <b>Validation Loss on the Retain Set</b> (our "Blind Metric") allows systems to autonomously halt unlearning at Step 31 before catastrophic forgetting begins.</p>
             </div>
         </div>
     </section>
@@ -192,8 +197,8 @@
         <div class="grid-2">
             <div class="text-block">
                 <h2>The Memorization Trap</h2>
-                <p>A Membership Inference Attack (MIA) conducted at peak utility (Step 31) revealed a fundamental <b>Privacy-Utility Deadlock</b>.</p>
-                <p>Target confidence only dropped from <span class="highlight">99.09% to 98.93%</span>. Highly confident financial profiles are stuck on the "Sigmoid Plateau," where standard gradient ascent is insufficient for outlier erasure without destroying model integrity.</p>
+                <p>An MIA conducted at Step 31 revealed target confidence only dropped from <span class="highlight">99.09% to 98.93%</span>.</p>
+                <p>Highly confident financial profiles are stuck on the "Sigmoid Plateau," where standard gradient ascent is insufficient for outlier erasure without destroying model integrity.</p>
             </div>
             <div>
                 <img src="figure/privacy_amnesia_histogram.png" alt="MIA Confidence Histogram">
@@ -203,10 +208,7 @@
 
     <footer>
         <p>UC San Diego Halıcıoğlu Data Science Institute &bull; 2026</p>
-        <p>Justin Minseob Seo &bull; \texttt{miseo@ucsd.edu}</p>
-        <div style="margin-top: 20px;">
-            <a href="Capstone_Poster.pdf" style="color: var(--accent-blue); text-decoration: none;">Download Poster PDF</a>
-        </div>
+        <p>Justin Minseob Seo &bull; miseo@ucsd.edu</p>
     </footer>
 
 </body>
