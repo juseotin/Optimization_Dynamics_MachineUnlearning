@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Autonomous Machine Unlearning | Data Science Capstone</title>
+    <title>Autonomous Machine Unlearning | Justin Minseob Seo</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* NVIDIA / Apple Dark Mode Aesthetic */
         :root {
             --bg-color: #050505;
             --text-main: #F5F5F7;
             --text-muted: #86868B;
             --accent-blue: #2997FF;
             --accent-green: #00FF66;
+            --accent-gold: #C69214;
         }
 
         body {
@@ -25,7 +25,6 @@
             overflow-x: hidden;
         }
 
-        /* Glassmorphism Navbar */
         nav {
             position: fixed;
             top: 0;
@@ -50,11 +49,8 @@
             transition: color 0.3s;
         }
 
-        nav a:hover {
-            color: var(--accent-blue);
-        }
+        nav a:hover { color: var(--accent-blue); }
 
-        /* Hero Section */
         .hero {
             height: 100vh;
             display: flex;
@@ -67,7 +63,7 @@
         }
 
         .hero h1 {
-            font-size: 5rem;
+            font-size: 4.5rem;
             font-weight: 900;
             letter-spacing: -2px;
             margin: 0;
@@ -78,39 +74,20 @@
         }
 
         .hero p {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: var(--text-muted);
-            max-width: 700px;
+            max-width: 800px;
             margin-top: 20px;
         }
 
-        .btn-primary {
-            margin-top: 40px;
-            padding: 15px 30px;
-            background-color: var(--text-main);
-            color: var(--bg-color);
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            transition: transform 0.2s, background-color 0.2s;
-        }
-
-        .btn-primary:hover {
-            transform: scale(1.05);
-            background-color: var(--accent-blue);
-            color: white;
-        }
-
-        /* Content Sections */
         .section {
-            padding: 120px 10%;
+            padding: 100px 10%;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .section h2 {
-            font-size: 3rem;
+            font-size: 2.8rem;
             font-weight: 700;
             margin-bottom: 20px;
             letter-spacing: -1px;
@@ -121,150 +98,116 @@
             grid-template-columns: 1fr 1fr;
             gap: 60px;
             align-items: center;
-            margin-top: 60px;
+            margin-top: 40px;
         }
 
-        .text-block p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            margin-bottom: 20px;
-        }
-
-        .highlight {
-            color: var(--text-main);
-            font-weight: 700;
-        }
-
-        /* Math Box */
         .math-box {
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 20px;
             padding: 40px;
             text-align: center;
-            font-size: 2rem;
-            font-weight: 700;
+            font-size: 1.8rem;
             font-family: 'Courier New', Courier, monospace;
             margin: 40px 0;
             color: var(--accent-green);
-            box-shadow: 0 10px 30px rgba(0,255,102,0.05);
         }
+
+        .highlight { color: var(--accent-blue); font-weight: 700; }
+        .gold { color: var(--accent-gold); font-weight: 700; }
 
         img {
             width: 100%;
-            border-radius: 20px;
+            border-radius: 15px;
             border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease;
         }
+        
+        img:hover { transform: scale(1.02); }
 
-        /* Footer */
         footer {
             border-top: 1px solid rgba(255,255,255,0.1);
-            padding: 40px 10%;
+            padding: 60px 10%;
             text-align: center;
             color: var(--text-muted);
-            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
 
     <nav>
-        <div style="font-weight: 700; letter-spacing: 1px;">UCSD CAPSTONE</div>
+        <div style="font-weight: 700; letter-spacing: 1px;">UCSD HDSI CAPSTONE</div>
         <div>
-            <a href="#motivation">Problem</a>
-            <a href="#methods">Methodology</a>
-            <a href="#results">Verification</a>
-            <a href="https://github.com/your-github-repo-link" target="_blank">GitHub</a>
+            <a href="#audit">Geometric Audit</a>
+            <a href="#paradox">Safety Window</a>
+            <a href="#trap">Memorization Trap</a>
         </div>
     </nav>
 
     <section class="hero">
         <h1>Autonomous Machine Unlearning</h1>
-        <p>Securing financial privacy in convex optimization models via Projected Gradient Ascent.</p>
-        <div style="margin-top: 20px; color: var(--text-muted); font-size: 1rem;">
-            By Justin Minseob Seo &nbsp;|&nbsp; Mentor: Jun-Kun Wang
+        <p>Mathematical Verification of Projected Gradient Ascent in Financial Risk Models.</p>
+        <div style="margin-top: 20px; color: var(--text-muted); font-size: 1.1rem;">
+            Justin Minseob Seo &nbsp;|&nbsp; Advised by Jun-Kun Wang
         </div>
-        <a href="#motivation" class="btn-primary">Explore the Research</a>
     </section>
 
-    <section id="motivation" class="section">
+    <section id="audit" class="section">
         <div class="grid-2">
             <div class="text-block">
-                <h2>The "Right to be Forgotten"</h2>
-                <p>Regulations like GDPR require organizations to delete user data upon request. However, exact model retraining is computationally prohibitive, scaling at <span class="highlight">O(N)</span>.</p>
-                <p>Current heuristic unlearning methods inject stochastic noise into the model. This damages overall utility and critically fails to offer verifiable mathematical guarantees of privacy compliance.</p>
+                <h2>Geometric Audit: Precision vs. Interference</h2>
+                <p>We verified the algorithm's integrity by transitioning from a theoretical baseline to production-scale deployment.</p>
+                <p>Our <span class="highlight">Baseline (N=1)</span> tests yielded a perfect 1.0 R², proving surgical precision. However, scaling to <span class="highlight">Production (N=20)</span> revealed <b>Batch Interference</b>, where competing gradients from distinct financial profiles dilute unlearning efficiency.</p>
             </div>
             <div>
-                <img src="figure/unlearning_flowchart.png" alt="Unlearning Pipeline Flowchart">
+                <img src="figure/geometric_audit_side_by_side.png" alt="Geometric Audit: Baseline vs Production">
             </div>
         </div>
     </section>
 
-    <section id="methods" class="section" style="background-color: #0A0A0E;">
-        <h2 style="text-align: center;">Surgical Unlearning via PGA</h2>
-        <p style="text-align: center; max-width: 800px; margin: 0 auto; color: var(--text-muted); font-size: 1.2rem;">
-            We isolate the fundamental dynamics of unlearning by applying Projected Gradient Ascent (PGA) to strictly convex environments. The objective is to maximize error exclusively on a targeted "forget batch" while preserving decision boundaries for retained data.
-        </p>
-        
+    <section class="section" style="background-color: #0A0A0E;">
+        <h2 style="text-align: center;">Mathematical Foundation</h2>
         <div class="math-box">
-            w_{t+1} = w_t + η ∇L_forget(w_t)
+            w_{t+1} = w_t + \eta \nabla \mathcal{L}_{forget}(w_t)
+        </div>
+        <p style="text-align: center; color: var(--text-muted);">
+            By applying Projected Gradient Ascent (PGA), we maximize error exclusively on a targeted forget-batch while preserving the decision boundaries of the retain-set.
+        </p>
+    </section>
+
+    <section id="paradox" class="section">
+        <div class="grid-2">
+            <div>
+                <img src="figure/hero_plot_stopping_paradox.png" alt="Safety Window Discovery">
+            </div>
+            <div class="text-block">
+                <h2>Solving the Stopping Point Paradox</h2>
+                <p>Unlearning presents a narrow "Efficiency Window." Ascending the gradient indefinitely results in <b>Catastrophic Forgetting</b> of the retained data.</p>
+                <p>We discovered a <span class="gold">34-step Safety Window</span>. By monitoring a deployable "Blind Metric" (Validation Loss), systems can autonomously halt unlearning at Step 31, preserving model utility before degradation begins.</p>
+            </div>
         </div>
     </section>
 
-    <section id="results" class="section">
-        <h2>Geometric Verification</h2>
-        <div class="grid-2">
-            <div>
-                <img src="figure/geometric_alignment_bars.png" alt="Geometric Alignment Chart">
-            </div>
-            <div class="text-block">
-                <p>Is unlearning a precise mathematical projection, or just random noise?</p>
-                <p>Comparing the weight update to the target's feature vector yields a <span class="highlight">Cosine Similarity of 1.0</span>. PGA perfectly mirrors the geometric subspace of the forgotten data, confirming it is a strict mathematical projection.</p>
-            </div>
-        </div>
-
-        <h2 style="margin-top: 120px;">The Stopping Point Paradox</h2>
+    <section id="trap" class="section">
         <div class="grid-2">
             <div class="text-block">
-                <p>Ascending the gradient indefinitely causes catastrophic forgetting. Real-world systems lack a "Gold Standard" retrained model to flag the optimal stopping point.</p>
-                <p>We discovered that monitoring the <span class="highlight">Validation Loss on the Retain Set</span> acts as a highly reliable, deployable blind metric to halt unlearning autonomously.</p>
+                <h2>The Memorization Trap</h2>
+                <p>A Membership Inference Attack (MIA) conducted at peak utility (Step 31) revealed a fundamental <b>Privacy-Utility Deadlock</b>.</p>
+                <p>Target confidence only dropped from <span class="highlight">99.09% to 98.93%</span>. Highly confident financial profiles are stuck on the "Sigmoid Plateau," where standard gradient ascent is insufficient for outlier erasure without destroying model integrity.</p>
             </div>
             <div>
-                <img src="figure/hero_plot_stopping_paradox.png" alt="Stopping Paradox Plot">
-            </div>
-        </div>
-
-        <h2 style="margin-top: 120px;">Privacy Auditing</h2>
-        <div class="grid-2">
-            <div>
-                <img src="figure/privacy_amnesia_histogram.png" alt="Privacy Amnesia Histogram">
-            </div>
-            <div class="text-block">
-                <p>To verify compliance, we subjected the unlearned model to a Membership Inference Attack (MIA).</p>
-                <p>At the deployable stopping point (Step 31), the model's confidence on the targeted users plummeted from 99% (memorization) to <span class="highlight">≈ 50% (random guessing)</span>, successfully neutralizing the privacy risk.</p>
+                <img src="figure/privacy_amnesia_histogram.png" alt="MIA Confidence Histogram">
             </div>
         </div>
     </section>
 
     <footer>
-        <p>UC San Diego Data Science Capstone 2025-2026</p>
-        <p>Student: Justin Minseob Seo | Mentor: Jun-Kun Wang</p>
+        <p>UC San Diego Halıcıoğlu Data Science Institute &bull; 2026</p>
+        <p>Justin Minseob Seo &bull; \texttt{miseo@ucsd.edu}</p>
         <div style="margin-top: 20px;">
-            <a href="https://github.com/your-github-repo-link" style="color: var(--accent-blue); text-decoration: none; margin: 0 10px;">View GitHub Code</a>
-            <a href="Capstone_Poster.pdf" style="color: var(--accent-blue); text-decoration: none; margin: 0 10px;">Download Poster (PDF)</a>
+            <a href="Capstone_Poster.pdf" style="color: var(--accent-blue); text-decoration: none;">Download Poster PDF</a>
         </div>
     </footer>
 
-    <script>
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
 </body>
 </html>
