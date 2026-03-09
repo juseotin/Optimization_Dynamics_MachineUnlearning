@@ -144,6 +144,64 @@
             .grid-2 { grid-template-columns: 1fr; text-align: center; }
             nav { padding: 15px 20px; }
         }
+
+        /* Premium Expandable Blocks */
+        details.explore-block {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 20px 25px;
+            margin-top: 25px;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        details.explore-block[open] {
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(41, 151, 255, 0.3);
+        }
+
+        details.explore-block summary {
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--accent-blue);
+            outline: none;
+            list-style: none;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+        }
+
+        details.explore-block summary::-webkit-details-marker { 
+            display: none; 
+        }
+
+        details.explore-block summary::before {
+            content: '+';
+            margin-right: 15px;
+            font-size: 1.5rem;
+            line-height: 1;
+            font-weight: 300;
+            color: var(--text-muted);
+            transition: transform 0.3s ease;
+        }
+
+        details.explore-block[open] summary::before {
+            content: '×';
+            transform: rotate(90deg);
+            color: var(--accent-blue);
+        }
+
+        details.explore-block p, details.explore-block ul {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 15px;
+            line-height: 1.7;
+        }
+
+        details.explore-block li {
+            margin-bottom: 8px;
+        }
     </style>
 </head>
 <body>
@@ -174,8 +232,20 @@
                     <li><span class="highlight">Baseline (N=1):</span> Achieved surgical precision with an \(R^2 = 1.0\).</li>
                     <li><span class="highlight">Production (N=20):</span> Scaling revealed <b>Batch Interference</b>, diluting precision to \(R^2 \approx 0.16\).</li>
                 </ul>
+
+                <details class="explore-block">
+                    <summary>Explore more about the Audit Visuals</summary>
+                    <p>The comparative scatterplots mathematically prove the limits of batch unlearning.</p>
+                    <ul>
+                        <li><b>The Dots:</b> Each dot represents one of the 48 distinct financial features (like savings balances or employment duration) evaluated by the model.</li>
+                        <li><b>The X Axis:</b> The actual normalized feature value of the targeted user.</li>
+                        <li><b>The Y Axis:</b> The magnitude of the gradient weight update applied during unlearning.</li>
+                        <li><b>The Meaning:</b> In a perfect scenario, the weight update mirrors the feature vector perfectly (forming a straight line). The messy scatterplot on the right proves that processing multiple people at once forces the algorithm to compromise, ruining precision for the individual.</li>
+                    </ul>
+                </details>
             </div>
             <div data-aos="fade-left">
+                
                 <img src="figure/geometric_audit_side_by_side.png" alt="Geometric Audit">
             </div>
         </div>
@@ -206,17 +276,38 @@
                 \[ \nabla w_{batch} = \frac{1}{N} \sum_{i=1}^{N} x_i \cdot ( \hat{y}_i - y_i ) + \lambda w \]
             </div>
         </div>
+
+        <details class="explore-block" style="max-width: 800px; margin: 0 auto; margin-top: 40px;" data-aos="fade-up">
+            <summary>Read more about the Unlearning Algorithms</summary>
+            <p>Our methodology isolated convex optimization dynamics to provide mathematically verifiable guarantees.</p>
+            <ul>
+                <li><b>Projected Gradient Ascent (PGA):</b> Instead of minimizing error to learn, PGA intentionally maximizes the Binary Cross Entropy loss specifically on a targeted forget batch. This pushes the model weights away from the targeted feature representations.</li>
+                <li><b>L2 Regularization:</b> Applied to maintain global model stability during the ascent process, preventing the weights from exploding into infinite values.</li>
+                <li><b>Cosine Similarity:</b> We used this metric to verify that the batch update trajectory was still geometrically aligned with the pure single user update. It remained perfectly locked at 0.427, proving zero random drift.</li>
+            </ul>
+        </details>
     </section>
 
     <section id="paradox" class="section">
         <div class="grid-2">
             <div data-aos="zoom-in">
+                
                 <img src="figure/hero_plot_stopping_paradox.png" alt="Safety Window">
             </div>
             <div class="text-block" data-aos="fade-left">
                 <h2>The Safety Window</h2>
                 <p>We identified a <span class="gold">34 step Safety Window</span> where the model maintains peak utility.</p>
                 <p>Our "Blind Metric" autonomously halts unlearning at Step 31, preventing model degradation.</p>
+
+                <details class="explore-block">
+                    <summary>Explore more about the Paradox Graph</summary>
+                    <p>This dual axis line graph illustrates how we established an autonomous stopping rule.</p>
+                    <ul>
+                        <li><b>Distance to Gold Standard (Oracle):</b> This measures how close our unlearned model is to a perfectly retrained model. It reaches its optimal state at Step 65.</li>
+                        <li><b>Validation Loss (Blind Metric):</b> This measures the actual utility of the model on retained data. It begins to degrade catastrophically after Step 31.</li>
+                        <li><b>The Conclusion:</b> Real world systems cannot use Oracle metrics. By monitoring the validation loss, the system halts unlearning right before catastrophic forgetting occurs, ensuring safe deployment.</li>
+                    </ul>
+                </details>
             </div>
         </div>
     </section>
@@ -227,8 +318,19 @@
                 <h2>The Privacy Deadlock</h2>
                 <p>MIA audits revealed target confidence only dropped from <span class="highlight">99.09% to 98.93%</span> at Step 31.</p>
                 <p>This "Memorization Trap" proves that standard gradient ascent is insufficient for outlier erasure in high confidence models.</p>
+
+                <details class="explore-block">
+                    <summary>Read more about the MIA and Sigmoid Trap</summary>
+                    <p>We verified true amnesia using Membership Inference Attacks.</p>
+                    <ul>
+                        <li><b>Membership Inference Attacks (MIA):</b> An auditing technique that analyzes the raw probability output of the model. If the model outputs 99% confidence for a specific profile, it exposes that the user was part of the training data.</li>
+                        <li><b>The Sigmoid Plateau:</b> Because our targeted users were highly memorized outliers, their probabilities were pushed to the extreme flat ends of the logistic sigmoid curve.</li>
+                        <li><b>The Deadlock:</b> On the flat edges of the curve, the mathematical gradients vanish. The algorithm cannot push these users down to a safe 50% random guessing threshold without blowing past the 34 step safety window and destroying the model.</li>
+                    </ul>
+                </details>
             </div>
             <div data-aos="fade-up" data-aos-delay="200">
+                
                 <img src="figure/privacy_amnesia_histogram.png" alt="MIA Confidence">
             </div>
         </div>
