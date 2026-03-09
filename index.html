@@ -28,12 +28,12 @@
             padding: 0;
             background-color: var(--bg-color);
             color: var(--text-main);
-            font-family: 'Inter', -apple-system, sans-serif;
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* Apple-style Glass Navbar */
+        /* Premium Glass Navbar */
         nav {
             position: fixed;
             top: 0;
@@ -92,7 +92,6 @@
             font-weight: 300;
         }
 
-        /* Hover-effect Section Cards */
         .section {
             padding: 140px 10%;
             max-width: 1200px;
@@ -117,9 +116,8 @@
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 24px;
-            padding: 60px;
+            padding: 50px;
             text-align: center;
-            margin: 60px 0;
             color: var(--accent-green);
             box-shadow: 0 20px 50px rgba(0,0,0,0.3);
         }
@@ -154,6 +152,7 @@
         <div style="font-weight: 900; letter-spacing: 1px; font-size: 14px;">HDSI CAPSTONE</div>
         <div>
             <a href="#audit">Audit</a>
+            <a href="#framework">Framework</a>
             <a href="#paradox">Paradox</a>
             <a href="#trap">Deadlock</a>
         </div>
@@ -182,13 +181,31 @@
         </div>
     </section>
 
-    <section class="section" style="background-color: #080808;">
-        <div class="math-box" data-aos="flip-up" data-aos-duration="1000">
-            \[ w_{t+1} = w_t + \eta \nabla \mathcal{L}_{forget}(w_t) \]
-        </div>
-        <p style="text-align: center; color: var(--text-muted);" data-aos="fade-up">
-            Targeted Gradient Ascent allows for deterministic data erasure without the O(N) cost of retraining.
+    <section id="framework" class="section" style="background-color: #080808; border-radius: 30px;">
+        <h2 style="text-align: center; margin-bottom: 10px;" data-aos="fade-up">Mathematical Framework</h2>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 60px;" data-aos="fade-up">
+            Isolating the optimization dynamics of convex machine unlearning.
         </p>
+        
+        <div style="display: flex; flex-direction: column; gap: 40px;">
+            <div class="math-box" data-aos="fade-up">
+                <h3 style="color: white; margin-top: 0;">1. The Forward Pass (Logistic Regression)</h3>
+                <p style="color: var(--text-muted); font-size: 1.1rem;">The model calculates the probability of credit risk using the sigmoid function.</p>
+                \[ \hat{y} = \frac{1}{1 + \exp( - (w^T x + b) )} \]
+            </div>
+            
+            <div class="math-box" data-aos="fade-up" data-aos-delay="100">
+                <h3 style="color: white; margin-top: 0;">2. Pure Unlearning Gradient (Baseline N=1)</h3>
+                <p style="color: var(--text-muted); font-size: 1.1rem;">To unlearn one person, we maximize the error between the prediction and true label.</p>
+                \[ \nabla w = x \cdot ( \hat{y} - y ) \]
+            </div>
+            
+            <div class="math-box" data-aos="fade-up" data-aos-delay="200">
+                <h3 style="color: white; margin-top: 0;">3. Batch Interference Effect (Production N=20)</h3>
+                <p style="color: var(--text-muted); font-size: 1.1rem;">Scaling requires averaging competing gradients, diluting precision for any individual.</p>
+                \[ \nabla w_{batch} = \frac{1}{N} \sum_{i=1}^{N} x_i \cdot ( \hat{y}_i - y_i ) + \lambda w \]
+            </div>
+        </div>
     </section>
 
     <section id="paradox" class="section">
@@ -198,7 +215,7 @@
             </div>
             <div class="text-block" data-aos="fade-left">
                 <h2>The Safety Window</h2>
-                <p>We identified a <span class="gold">34-step Safety Window</span> where the model maintains peak utility.</p>
+                <p>We identified a <span class="gold">34 step Safety Window</span> where the model maintains peak utility.</p>
                 <p>Our "Blind Metric" autonomously halts unlearning at Step 31, preventing model degradation.</p>
             </div>
         </div>
@@ -209,7 +226,7 @@
             <div class="text-block" data-aos="fade-up">
                 <h2>The Privacy Deadlock</h2>
                 <p>MIA audits revealed target confidence only dropped from <span class="highlight">99.09% to 98.93%</span> at Step 31.</p>
-                <p>This "Memorization Trap" proves that standard gradient ascent is insufficient for outlier erasure in high-confidence models.</p>
+                <p>This "Memorization Trap" proves that standard gradient ascent is insufficient for outlier erasure in high confidence models.</p>
             </div>
             <div data-aos="fade-up" data-aos-delay="200">
                 <img src="figure/privacy_amnesia_histogram.png" alt="MIA Confidence">
